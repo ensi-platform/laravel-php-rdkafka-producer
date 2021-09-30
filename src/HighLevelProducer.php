@@ -14,8 +14,8 @@ class HighLevelProducer
     protected ProducerTopic $topic;
 
     public function __construct(
-        protected string $topicName, 
-        ?string $producerName, 
+        protected string $topicName,
+        ?string $producerName = null,
         protected int $flushTimeout = 5000,
         protected int $flushRetries = 5,
     )
@@ -58,7 +58,7 @@ class HighLevelProducer
     {
         foreach ($messages as $message) {
             $this->topic->produce(RD_KAFKA_PARTITION_UA, 0, $message);
-            $$this->producer->poll(0);
+            $this->producer->poll(0);
         }
 
         $code = $this->flush();
