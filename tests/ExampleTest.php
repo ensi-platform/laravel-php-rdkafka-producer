@@ -1,6 +1,6 @@
 <?php
 
-namespace Greensight\LaravelPhpRdKafkaProducer\Tests;
+namespace Ensi\LaravelPhpRdKafkaProducer\Tests;
 
 class ExampleTest extends TestCase
 {

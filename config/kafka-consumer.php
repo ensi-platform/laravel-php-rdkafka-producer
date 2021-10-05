@@ -12,7 +12,7 @@ return [
 
          /*
          | Optional, defaults to `null`.
-         | Here you may specify which greensight/laravel-phprdkafka producer should be handled by this processor.
+         | Here you may specify which ensi/laravel-phprdkafka producer should be handled by this processor.
          | Processor handles all producers by default.
          */
          'producer' => 'default',

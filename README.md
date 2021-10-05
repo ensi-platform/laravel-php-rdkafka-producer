@@ -1,14 +1,14 @@
 # Laravel PHP Rdkafka Producer
 
-Opiniated High Level producer for [greensight/laravel-phprdkafka](https://github.com/greensight/laravel-php-rdkafka)
+Opiniated High Level producer for [ensi/laravel-phprdkafka](https://github.com/ensi-platform/laravel-php-rdkafka)
 
 ## Installation
 
-Firstly, you have to install and configure [greensight/laravel-phprdkafka](https://github.com/greensight/laravel-php-rdkafka)
+Firstly, you have to install and configure [ensi/laravel-phprdkafka](https://github.com/ensi-platform/laravel-php-rdkafka)
 
 Then,
 ```bash
-composer require greensight/laravel-phprdkafka-producer
+composer require ensi/laravel-phprdkafka-producer
 ```
 
 ## Usage
@@ -16,7 +16,7 @@ composer require greensight/laravel-phprdkafka-producer
 Send a single message:
 
 ```php
-use Greensight\LaravelPhpRdKafkaProducer\HighLevelProducer;
+use Ensi\LaravelPhpRdKafkaProducer\HighLevelProducer;
 
 (new HighLevelProducer($topicName))->sendOne($messageString);
 ```
@@ -31,12 +31,12 @@ All options with defaults:
 
 ```php
 
-use Greensight\LaravelPhpRdKafkaProducer\HighLevelProducer;
-use Greensight\LaravelPhpRdKafkaProducer\Exceptions\KafkaProducerException;
+use Ensi\LaravelPhpRdKafkaProducer\HighLevelProducer;
+use Ensi\LaravelPhpRdKafkaProducer\Exceptions\KafkaProducerException;
 
 $producer = new HighLevelProducer(
     topicName: $topicName, 
-    producerName: 'some-producer-from-greensight/laravel-phprdkafka-config', 
+    producerName: 'some-producer-from-ensi/laravel-phprdkafka-config', 
     flushTimeout: 5000, // ms
     flushRetries: 5,
 );

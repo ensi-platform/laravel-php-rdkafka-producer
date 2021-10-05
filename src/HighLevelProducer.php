@@ -1,9 +1,9 @@
 <?php
 
-namespace Greensight\LaravelPhpRdKafkaProducer;
+namespace Ensi\LaravelPhpRdKafkaProducer;
 
-use Greensight\LaravelPhpRdKafka\KafkaManager;
-use Greensight\LaravelPhpRdKafkaProducer\Exceptions\KafkaProducerException;
+use Ensi\LaravelPhpRdKafka\KafkaManager;
+use Ensi\LaravelPhpRdKafkaProducer\Exceptions\KafkaProducerException;
 use RdKafka\Producer;
 use RdKafka\ProducerTopic;
 

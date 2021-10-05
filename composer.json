@@ -1,16 +1,16 @@
 {
-    "name": "greensight/laravel-phprdkafka-producer",
+    "name": "ensi/laravel-phprdkafka-producer",
     "description": "Opiniated High Level producer for laravel-phprdkafka",
     "keywords": [
-        "greensight",
+        "ensi",
         "laravel",
         "kafka"
     ],
-    "homepage": "https://github.com/greensight/laravel-phprdkafka-producer",
+    "homepage": "https://github.com/ensi-platform/laravel-phprdkafka-producer",
     "license": "MIT",
     "authors": [
         {
-            "name": "arrilot",
+            "name": "Nekrasov Ilya",
             "email": "nekrasov@greensight.ru",
             "role": "Developer"
         }
@@ -18,7 +18,7 @@
     "require": {
         "php": "^8.0",
         "ext-rdkafka": "*",
-        "greensight/laravel-phprdkafka": "^0.1.4"
+        "ensi/laravel-phprdkafka": "^0.1.4"
     },
     "require-dev": {
         "brianium/paratest": "^6.2",
@@ -29,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Greensight\\LaravelPhpRdKafkaProducer\\": "src"
+            "Ensi\\LaravelPhpRdKafkaProducer\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Greensight\\LaravelPhpRdKafkaProducer\\Tests\\": "tests"
+            "Ensi\\LaravelPhpRdKafkaProducer\\Tests\\": "tests"
         }
     },
     "scripts": {
