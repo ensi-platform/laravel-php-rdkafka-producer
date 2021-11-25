@@ -1,7 +1,5 @@
 <?php
 
 return [
-   'global_middleware' => [
-      
-   ]
+   'global_middleware' => [],
 ];
