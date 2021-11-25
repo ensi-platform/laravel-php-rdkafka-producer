@@ -18,12 +18,19 @@
     "require": {
         "php": "^8.0",
         "ext-rdkafka": "*",
+        "illuminate/contracts": "^8.37",
+        "illuminate/pipeline": "^8.37",
+        "illuminate/support": "^8.37",
         "ensi/laravel-phprdkafka": "^0.2"
     },
     "require-dev": {
         "brianium/paratest": "^6.2",
+        "friendsofphp/php-cs-fixer": "^3.2",
         "nunomaduro/collision": "^5.3",
         "orchestra/testbench": "^6.15",
+        "pestphp/pest": "^1.18",
+        "pestphp/pest-plugin-laravel": "^1.1",
+        "php-parallel-lint/php-var-dump-check": "^0.5.0",
         "phpunit/phpunit": "^9.3",
         "spatie/laravel-ray": "^1.9"
     },
@@ -38,11 +45,19 @@
         }
     },
     "scripts": {
+        "cs": "php-cs-fixer fix --config .php-cs-fixer.php",
         "test": "./vendor/bin/testbench package:test --no-coverage",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     },
     "config": {
         "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ensi\\LaravelPhpRdKafkaProducer\\LaravelPhpRdKafkaProducerServiceProvider"
+            ]
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

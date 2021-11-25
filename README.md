@@ -11,6 +11,11 @@ Then,
 composer require ensi/laravel-phprdkafka-producer
 ```
 
+Publish the config file if you need it:
+```bash
+php artisan vendor:publish --provider="Ensi\LaravelPhpRdKafkaProducer\LaravelPhpRdKafkaProducerServiceProvider" --tag="kafka-producer-config"
+```
+
 ## Usage
 
 Send a single message:
@@ -48,6 +53,36 @@ try {
         ->sendOne($messageString);
 } catch (KafkaProducerException $e) {
     //...
+}
+
+```
+
+
+### Middleware
+
+You can add middleware globally via config or locally for specific Producer:
+
+```php
+$producer->pushMiddleware(SomeMiddleware::class)
+        ->sendOne($messageString);
+```
+
+Middleware example:
+
+```php
+
+use Closure;
+use Ensi\LaravelPhpRdKafkaProducer\ProducerMessage;
+
+class SomeMiddleware
+{
+    public function handle(ProducerMessage $message, Closure $next): mixed
+    {
+        $message->headers = $message->headers ?: [];
+        $message->headers['Header-Name'] = 'Header Value';
+
+        return $next($message);
+    }
 }
 
 ```

@@ -4,6 +4,7 @@ namespace Ensi\LaravelPhpRdKafkaProducer;
 
 use Ensi\LaravelPhpRdKafka\KafkaManager;
 use Ensi\LaravelPhpRdKafkaProducer\Exceptions\KafkaProducerException;
+use Illuminate\Pipeline\Pipeline;
 use RdKafka\Producer;
 use RdKafka\ProducerTopic;
 
@@ -13,15 +14,19 @@ class HighLevelProducer
 
     protected ProducerTopic $topic;
 
+    protected Pipeline $pipeline;
+
+    protected $middleware = [];
+
     public function __construct(
         protected string $topicName,
         ?string $producerName = null,
         protected int $flushTimeout = 5000,
         protected int $flushRetries = 5,
-    )
-    {
+    ) {
         $manager = resolve(KafkaManager::class);
-        $this->producer =  is_null($producerName) ? $manager->producer() : $manager->producer($producerName);
+        $this->pipeline = resolve(Pipeline::class);
+        $this->producer = is_null($producerName) ? $manager->producer() : $manager->producer($producerName);
         $this->topic = $this->producer->newTopic($topicName);
     }
 
@@ -39,12 +44,35 @@ class HighLevelProducer
         return $this;
     }
 
+    public function pushMiddleware(string $middleware): static
+    {
+        if (array_search($middleware, $this->middleware) === false) {
+            $this->middleware[] = $middleware;
+        }
+
+        return $this;
+    }
+
+    public function collectMiddleware(): array
+    {
+        return array_unique(array_merge(config('kafka-producer.global_middleware', []), $this->middleware));
+    }
+
     /**
      * @throws KafkaProducerException
      */
     public function sendOne(string $message): void
     {
-        $this->topic->produce(RD_KAFKA_PARTITION_UA, 0, $message);
+        $messageObject = $this->dispatchThroughMiddleware($message);
+        $this->topic->producev(
+            RD_KAFKA_PARTITION_UA,
+            0,
+            $messageObject->payload,
+            $messageObject->key,
+            $messageObject->headers,
+            $messageObject->timestampMs,
+            $messageObject->opaque,
+        );
         $this->producer->poll(0);
 
         $code = $this->flush();
@@ -57,7 +85,16 @@ class HighLevelProducer
     public function sendMany(array $messages): void
     {
         foreach ($messages as $message) {
-            $this->topic->produce(RD_KAFKA_PARTITION_UA, 0, $message);
+            $messageObject = $this->dispatchThroughMiddleware($message);
+            $this->topic->producev(
+                RD_KAFKA_PARTITION_UA,
+                0,
+                $messageObject->payload,
+                $messageObject->key,
+                $messageObject->headers,
+                $messageObject->timestampMs,
+                $messageObject->opaque,
+            );
             $this->producer->poll(0);
         }
 
@@ -84,9 +121,20 @@ class HighLevelProducer
     {
         if (RD_KAFKA_RESP_ERR_NO_ERROR !== $code) {
             $topicName = $this->topic->getName();
+
             throw new KafkaProducerException(
                 "Sending message to kafka topic=$topicName failed, error_code=$code"
             );
         }
+    }
+
+    protected function dispatchThroughMiddleware(string $payload): ProducerMessage
+    {
+        $middleware = $this->collectMiddleware();
+
+        return $this->pipeline
+            ->send(new ProducerMessage($payload))
+            ->through($middleware)
+            ->thenReturn();
     }
 }
