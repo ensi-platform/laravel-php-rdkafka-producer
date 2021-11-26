@@ -63,16 +63,7 @@ class HighLevelProducer
      */
     public function sendOne(string $message): void
     {
-        $messageObject = $this->dispatchThroughMiddleware($message);
-        $this->topic->producev(
-            RD_KAFKA_PARTITION_UA,
-            0,
-            $messageObject->payload,
-            $messageObject->key,
-            $messageObject->headers,
-            $messageObject->timestampMs,
-            $messageObject->opaque,
-        );
+        $this->produceThroughMiddleware($message);
         $this->producer->poll(0);
 
         $code = $this->flush();
@@ -85,16 +76,7 @@ class HighLevelProducer
     public function sendMany(array $messages): void
     {
         foreach ($messages as $message) {
-            $messageObject = $this->dispatchThroughMiddleware($message);
-            $this->topic->producev(
-                RD_KAFKA_PARTITION_UA,
-                0,
-                $messageObject->payload,
-                $messageObject->key,
-                $messageObject->headers,
-                $messageObject->timestampMs,
-                $messageObject->opaque,
-            );
+            $this->produceThroughMiddleware($message);
             $this->producer->poll(0);
         }
 
@@ -128,13 +110,23 @@ class HighLevelProducer
         }
     }
 
-    protected function dispatchThroughMiddleware(string $payload): ProducerMessage
+    protected function produceThroughMiddleware(string $payload): void
     {
         $middleware = $this->collectMiddleware();
 
-        return $this->pipeline
+        $this->pipeline
             ->send(new ProducerMessage($payload))
             ->through($middleware)
-            ->thenReturn();
+            ->then(function (ProducerMessage $message) {
+                $this->topic->producev(
+                    RD_KAFKA_PARTITION_UA,
+                    0,
+                    $message->payload,
+                    $message->key,
+                    $message->headers,
+                    $message->timestampMs,
+                    $message->opaque,
+                );
+            });
     }
 }
