@@ -21,3 +21,7 @@ test('producer uses global middleware in the begining', function () {
     $producer->pushMiddleware('TestMiddleware::class');
     expect($producer->collectMiddleware())->toBeArray(['GlobalMiddleware::class', 'TestMiddleware::class']);
 });
+
+test('undefined topic throws exception', function () {
+    HighLevelProducerFactory::new()->make('not-registered-topic-key');
+})->throws(InvalidArgumentException::class);

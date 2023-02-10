@@ -23,13 +23,13 @@ Send a single message:
 ```php
 use Ensi\LaravelPhpRdKafkaProducer\HighLevelProducer;
 
-(new HighLevelProducer($topicName))->sendOne($messageString);
+(new HighLevelProducer($topicKey))->sendOne($messageString);
 ```
 
 Send several messages at once:
 
 ```php
-(new HighLevelProducer($topicName))->sendMany([$message1String, $message2String]);
+(new HighLevelProducer($topicKey))->sendMany([$message1String, $message2String]);
 ```
 
 All options with defaults:
@@ -40,7 +40,7 @@ use Ensi\LaravelPhpRdKafkaProducer\HighLevelProducer;
 use Ensi\LaravelPhpRdKafkaProducer\Exceptions\KafkaProducerException;
 
 $producer = new HighLevelProducer(
-    topicName: $topicName, 
+    topicKey: $topicKey, 
     producerName: 'some-producer-from-ensi/laravel-phprdkafka-config', 
     flushTimeout: 5000, // ms
     flushRetries: 5,
@@ -90,6 +90,9 @@ class SomeMiddleware
 ## Testing
 
 ```bash
+cp .env.example .env
+vim .env # add real kafka credentials
+
 composer test
 ```
 

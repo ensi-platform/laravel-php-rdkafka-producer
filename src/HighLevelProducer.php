@@ -19,15 +19,16 @@ class HighLevelProducer
     protected $middleware = [];
 
     public function __construct(
-        protected string $topicName,
+        protected string $topicKey,
         ?string $producerName = null,
         protected int $flushTimeout = 5000,
         protected int $flushRetries = 5,
     ) {
+        /** @var KafkaManager $manager */
         $manager = resolve(KafkaManager::class);
         $this->pipeline = resolve(Pipeline::class);
         $this->producer = is_null($producerName) ? $manager->producer() : $manager->producer($producerName);
-        $this->topic = $this->producer->newTopic($topicName);
+        $this->topic = $this->producer->newTopic($manager->topicName($this->topicKey));
     }
 
     public function setFlushTimeout(int $timeout): static
