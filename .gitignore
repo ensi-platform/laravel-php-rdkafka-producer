@@ -1,6 +1,7 @@
 .idea
 .php-cs-fixer.cache
 .phpunit.result.cache
+.env
 build
 composer.lock
 coverage
@@ -10,3 +11,4 @@ psalm.xml
 testbench.yaml
 vendor
 node_modules
+studio.json
