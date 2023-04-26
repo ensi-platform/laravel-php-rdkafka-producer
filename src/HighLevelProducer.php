@@ -2,7 +2,7 @@
 
 namespace Ensi\LaravelPhpRdKafkaProducer;
 
-use Ensi\LaravelPhpRdKafka\KafkaManager;
+use Ensi\LaravelPhpRdKafka\KafkaFacade;
 use Ensi\LaravelPhpRdKafkaProducer\Exceptions\KafkaProducerException;
 use Illuminate\Pipeline\Pipeline;
 use RdKafka\Producer;
@@ -16,7 +16,7 @@ class HighLevelProducer
 
     protected Pipeline $pipeline;
 
-    protected $middleware = [];
+    protected array $middleware = [];
 
     public function __construct(
         protected string $topicKey,
@@ -24,12 +24,10 @@ class HighLevelProducer
         protected int $flushTimeout = 5000,
         protected int $flushRetries = 5,
     ) {
-        /** @var KafkaManager $manager */
-        $manager = resolve(KafkaManager::class);
         $this->pipeline = resolve(Pipeline::class);
-        $this->producer = $manager->producer($producerName);
-        $topicName = $manager->topicNameByClient('producer', $producerName, $this->topicKey);
+        $this->producer = KafkaFacade::producer($producerName);
 
+        $topicName = KafkaFacade::topicNameByClient('producer', $producerName, $this->topicKey);
         $this->topic = $this->producer->newTopic($topicName);
     }
 
@@ -49,7 +47,7 @@ class HighLevelProducer
 
     public function pushMiddleware(string $middleware): static
     {
-        if (array_search($middleware, $this->middleware) === false) {
+        if (!in_array($middleware, $this->middleware)) {
             $this->middleware[] = $middleware;
         }
 
@@ -102,7 +100,7 @@ class HighLevelProducer
     /**
      * @throws KafkaProducerException
      */
-    protected function raiseExceptionOnErrorCode(int $code)
+    protected function raiseExceptionOnErrorCode(int $code): void
     {
         if (RD_KAFKA_RESP_ERR_NO_ERROR !== $code) {
             $topicName = $this->topic->getName();
