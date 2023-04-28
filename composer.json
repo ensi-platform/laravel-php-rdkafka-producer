@@ -6,7 +6,7 @@
         "laravel",
         "kafka"
     ],
-    "homepage": "https://github.com/ensi-platform/laravel-phprdkafka-producer",
+    "homepage": "https://github.com/ensi-platform/laravel-php-rdkafka-producer",
     "license": "MIT",
     "authors": [
         {
@@ -18,10 +18,10 @@
     "require": {
         "php": "^8.0",
         "ext-rdkafka": "*",
-        "illuminate/contracts": "^8.37 || ^9",
-        "illuminate/pipeline": "^8.37 || ^9",
-        "illuminate/support": "^8.37 || ^9",
-        "ensi/laravel-phprdkafka": "^0.3.0"
+        "illuminate/contracts": "^8.37 || ^9 || ^10",
+        "illuminate/pipeline": "^8.37 || ^9 || ^10",
+        "illuminate/support": "^8.37 || ^9 || ^10",
+        "ensi/laravel-phprdkafka": "^0.3.0 || ^0.4 || @dev"
     },
     "require-dev": {
         "brianium/paratest": "^6.2",
