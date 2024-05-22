@@ -18,8 +18,6 @@ class TestCase extends Orchestra
 
     public function getEnvironmentSetUp($app): void
     {
-        config()->set('database.default', 'testing');
-
         config()->set('kafka.connections.default.topics', ['default' => 'test.domain.fact.default.1']);
     }
 }
