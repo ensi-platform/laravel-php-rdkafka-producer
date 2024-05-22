@@ -1,5 +1,9 @@
 # Laravel PHP Rdkafka Producer
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/ensi/laravel-phprdkafka-producer.svg?style=flat-square)](https://packagist.org/packages/ensi/laravel-phprdkafka-producer)
+[![Tests](https://github.com/ensi-platform/laravel-php-rdkafka/actions/workflows/run-tests.yml/badge.svg?branch=master)](https://github.com/ensi-platform/laravel-php-rdkafka/actions/workflows/run-tests.yml)
+[![Total Downloads](https://img.shields.io/packagist/dt/ensi/laravel-phprdkafka-producer.svg?style=flat-square)](https://packagist.org/packages/ensi/laravel-phprdkafka-producer)
+
 Opiniated High Level producer for [ensi/laravel-phprdkafka](https://github.com/ensi-platform/laravel-php-rdkafka)
 
 ## Installation
@@ -12,11 +16,25 @@ composer require ensi/laravel-phprdkafka-producer
 ```
 
 Publish the config file if you need it:
+
 ```bash
 php artisan vendor:publish --provider="Ensi\LaravelPhpRdKafkaProducer\LaravelPhpRdKafkaProducerServiceProvider" --tag="kafka-producer-config"
 ```
 
-## Usage
+## Version Compatibility
+
+| Laravel rdkakfa-producer | Laravel                              | PHP  | ensi/laravel-phprdkafka |
+|--------------------------|--------------------------------------|------|-------------------------|
+| ^0.1.0                   | ^7.x \|\| ^8.x                       | ^8.0 | ^0.1.4                  |
+| ^0.2.0                   | ^7.x \|\| ^8.x                       | ^8.0 | ^0.1.4                  |
+| ^0.2.1                   | ^7.x \|\| ^8.x                       | ^8.0 | ^0.2                    |
+| ^0.2.3                   | ^8.x \|\| ^9.x                       | ^8.0 | ^0.2                    |
+| ^0.3.0                   | ^8.x \|\| ^9.x                       | ^8.0 | ^0.3.0                  |
+| ^0.3.2                   | ^8.x \|\| ^9.x \|\| ^10.x            | ^8.0 | ^0.3.0                  |
+| ^0.3.3                   | ^8.x \|\| ^9.x \|\| ^10.x \|\| ^11.x | ^8.0 | ^0.3.4                  |
+| ^0.4.0                   | ^9.x \|\| ^10.x \|\| ^11.x           | ^8.1 | ^0.4.0                  |
+
+## Basic Usage
 
 Send a single message:
 
@@ -87,18 +105,18 @@ class SomeMiddleware
 
 ```
 
-## Testing
+## Contributing
 
-```bash
-cp .env.example .env
-vim .env # add real kafka credentials
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
-composer test
-```
+### Testing
 
-## Changelog
+1. composer install
+2. composer test
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+## Security Vulnerabilities
+
+Please review [our security policy](.github/SECURITY.md) on how to report security vulnerabilities.
 
 ## License
 
