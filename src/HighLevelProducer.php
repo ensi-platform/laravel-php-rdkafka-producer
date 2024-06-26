@@ -94,7 +94,7 @@ class HighLevelProducer
             }
         }
 
-        return $result;
+        return RD_KAFKA_RESP_ERR_NO_ERROR;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 use Ensi\LaravelPhpRdKafka\KafkaFacade;
 use Ensi\LaravelPhpRdKafkaProducer\HighLevelProducer;
-use Ensi\LaravelPhpRdKafkaProducer\Tests\HighLevelProducerFactory;
+use Ensi\LaravelPhpRdKafkaProducer\Tests\Factories\HighLevelProducerFactory;
 use RdKafka\Producer;
 
 test('producer is instantiable', function () {
@@ -30,7 +30,7 @@ test('undefined topic throws exception', function () {
 })->throws(InvalidArgumentException::class);
 
 test('producer is singleton', function () {
-    $stub = new class('default') extends HighLevelProducer {
+    $stub = new class ('default') extends HighLevelProducer {
         public function getProducer(): Producer
         {
             return $this->producer;

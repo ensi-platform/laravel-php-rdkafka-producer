@@ -1,6 +1,6 @@
 <?php
 
-namespace Ensi\LaravelPhpRdKafkaProducer\Tests;
+namespace Ensi\LaravelPhpRdKafkaProducer\Tests\Factories;
 
 use Ensi\LaravelPhpRdKafkaProducer\HighLevelProducer;
 

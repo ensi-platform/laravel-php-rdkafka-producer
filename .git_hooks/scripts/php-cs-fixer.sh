@@ -1,8 +1,10 @@
 #!/bin/bash
 
+# Check code style via '.php-cs-fixer.php'
+
 EXECUTABLE_NAME=php-cs-fixer
 EXECUTABLE_COMMAND=fix
-CONFIG_FILE=.php_cs
+CONFIG_FILE=.php-cs-fixer.php
 CONFIG_FILE_PARAMETER='--config'
 ROOT=`pwd`
 ESC_SEQ="\x1b["
