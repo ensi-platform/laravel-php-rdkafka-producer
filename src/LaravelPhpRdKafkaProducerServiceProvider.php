@@ -20,7 +20,7 @@ class LaravelPhpRdKafkaProducerServiceProvider extends ServiceProvider
         }
     }
 
-    protected function packageBasePath(string $directory = null): string
+    protected function packageBasePath(?string $directory = null): string
     {
         if ($directory === null) {
             return __DIR__;
