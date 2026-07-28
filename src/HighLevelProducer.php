@@ -87,14 +87,19 @@ class HighLevelProducer
 
     protected function flush(): int
     {
-        for ($flushRetries = 0; $flushRetries < $this->flushRetries; $flushRetries++) {
+        $flushRetries = 0;
+
+        do {
             $result = $this->producer->flush($this->flushTimeout);
+
             if (RD_KAFKA_RESP_ERR_NO_ERROR === $result) {
                 return $result;
             }
-        }
 
-        return RD_KAFKA_RESP_ERR_NO_ERROR;
+            $flushRetries++;
+        } while ($flushRetries < $this->flushRetries);
+
+        return $result;
     }
 
     /**
